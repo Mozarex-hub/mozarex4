@@ -1,65 +1,46 @@
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request
 import requests
 
 app = Flask(__name__)
 
-# Function to search PubMed using NCBI E-utilities.
-def search_pubmed(query):
-    url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
-    params = {
-        "db": "pubmed",
-        "term": query,
-        "retmode": "json",
-        "retmax": 5  # Limit to 5 articles for demonstration
-    }
-    response = requests.get(url, params=params)
-    if response.status_code == 200:
-        data = response.json()
-        id_list = data["esearchresult"].get("idlist", [])
-        if id_list:
-            # Now fetch article summaries
-            summary_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi"
-            summary_params = {
-                "db": "pubmed",
-                "id": ",".join(id_list),
-                "retmode": "json"
-            }
-            summary_response = requests.get(summary_url, params=summary_params)
-            if summary_response.status_code == 200:
-                summary_data = summary_response.json()
-                articles = []
-                for uid, article in summary_data["result"].items():
-                    if uid == "uids":
-                        continue
-                    articles.append({
-                        "title": article.get("title", "بدون عنوان"),
-                        "pubdate": article.get("pubdate", "نامشخص")
-                    })
-                return articles
-    return []
-
-# Simulated AI-based function to analyze results and provide suggestions.
-def analyze_results(articles):
-    suggestions = []
-    for art in articles:
-        # For demonstration, simply provide a templated recommendation.
-        recommendation = (
-            "مطالعه مقاله '{}' می‌تواند نکات مفیدی برای افزایش طول عمر به شما ارائه دهد."
-            .format(art["title"])
-        )
-        suggestions.append(recommendation)
+def search_scientific_literature(lifestyle_input):
+    """
+    این تابع به صورت نمونه، پیشنهاداتی را بر اساس سبک زندگی ورودی ارائه می‌دهد.
+    همچنین می‌توان بخش‌های مرتبط با جستجو در PubMed را در آینده اضافه کرد.
+    """
+    # مثالی از یک جستجوی ساده در PubMed (تابع نمونه؛ در عمل می‌بایست
+    # از API های رسمی PubMed استفاده شود):
+    #
+    # def search_pubmed(query):
+    #     base_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
+    #     params = {
+    #         'db': 'pubmed',
+    #         'term': query,
+    #         'retmode': 'json',
+    #         'retmax': 5
+    #     }
+    #     response = requests.get(base_url, params=params)
+    #     if response.status_code == 200:
+    #         data = response.json()
+    #         id_list = data.get('esearchresult', {}).get('idlist', [])
+    #         return id_list
+    #     return []
+    #
+    # For now, we return a static list of suggestions:
+    suggestions = [
+        "ورزش منظم باعث بهبود عملکرد قلب و عروق می‌شود.",
+        "رژیم غذایی متعادل و سرشار از آنتی‌اکسیدان‌ها برای سلامت مفید است.",
+        "مدیریت استرس از طریق مدیتیشن و یوگا به افزایش طول عمر کمک می‌کند."
+    ]
     return suggestions
 
-@app.route("/", methods=["GET", "POST"])
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    articles = []
-    suggestions = []
-    query = ""
-    if request.method == "POST":
-        query = request.form.get("query")
-        articles = search_pubmed(query)
-        suggestions = analyze_results(articles)
-    return render_template("index.html", articles=articles, suggestions=suggestions, query=query)
+    if request.method == 'POST':
+        lifestyle = request.form.get('lifestyle')
+        suggestions = search_scientific_literature(lifestyle)
+        return render_template('result.html', lifestyle=lifestyle, suggestions=suggestions)
+    return render_template('index.html')
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)
