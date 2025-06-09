@@ -1,69 +1,65 @@
-import os
-from flask import Flask, request, render_template
+from flask import Flask, render_template, request, url_for
+import requests
 
-app = Flask(__name__, static_url_path='/static', static_folder='static')
+app = Flask(__name__)
+
+# Function to search PubMed using NCBI E-utilities.
+def search_pubmed(query):
+    url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
+    params = {
+        "db": "pubmed",
+        "term": query,
+        "retmode": "json",
+        "retmax": 5  # Limit to 5 articles for demonstration
+    }
+    response = requests.get(url, params=params)
+    if response.status_code == 200:
+        data = response.json()
+        id_list = data["esearchresult"].get("idlist", [])
+        if id_list:
+            # Now fetch article summaries
+            summary_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi"
+            summary_params = {
+                "db": "pubmed",
+                "id": ",".join(id_list),
+                "retmode": "json"
+            }
+            summary_response = requests.get(summary_url, params=summary_params)
+            if summary_response.status_code == 200:
+                summary_data = summary_response.json()
+                articles = []
+                for uid, article in summary_data["result"].items():
+                    if uid == "uids":
+                        continue
+                    articles.append({
+                        "title": article.get("title", "بدون عنوان"),
+                        "pubdate": article.get("pubdate", "نامشخص")
+                    })
+                return articles
+    return []
+
+# Simulated AI-based function to analyze results and provide suggestions.
+def analyze_results(articles):
+    suggestions = []
+    for art in articles:
+        # For demonstration, simply provide a templated recommendation.
+        recommendation = (
+            "مطالعه مقاله '{}' می‌تواند نکات مفیدی برای افزایش طول عمر به شما ارائه دهد."
+            .format(art["title"])
+        )
+        suggestions.append(recommendation)
+    return suggestions
 
 @app.route("/", methods=["GET", "POST"])
-def questionnaire():
+def index():
+    articles = []
+    suggestions = []
+    query = ""
     if request.method == "POST":
-        # Retrieve basic questions from the groupings in the index:
-        family_history = request.form.get("family_history")     # Genetics field group
-        exercise = float(request.form.get("exercise", 0))          # Lifestyle group
-        smoking = request.form.get("smoking")
-        alcohol = float(request.form.get("alcohol", 0))
-        pollution = int(request.form.get("pollution", 5))          # Environmental group
-        healthcare = int(request.form.get("healthcare", 2))
-        social = float(request.form.get("social", 3))              # Social & Psychological group
-        stress = int(request.form.get("stress", 5))
-        
-        # Retrieve additional luxury questions from the "سوالات تکمیلی" group
-        nutrition = int(request.form.get("nutrition", 5))
-        sleep_quality = float(request.form.get("sleep_quality", 5))
-        lifestyle = int(request.form.get("lifestyle", 5))
-        mental_balance = int(request.form.get("mental_balance", 5))
-        entertainment = int(request.form.get("entertainment", 5))
-        work_env = int(request.form.get("work_env", 5))
-        tech_experience = int(request.form.get("tech_experience", 5))
-        self_belief = int(request.form.get("self_belief", 5))
-        
-        # Calculate longevity score with a base of 80 years.
-        # Each field is weighted to reflect its influence on the final score.
-        score = 80
-        
-        # Effects on longevity based on lifestyle and personal habits:
-        score += exercise * 0.5                            # Regular exercise improves longevity
-        score += (nutrition - 5) * 1.5                       # Better-than-average nutrition raises the score
-        score += (sleep_quality - 5) * 1.8                   # Quality sleep relative to average boosts score
-        score += (lifestyle - 5) * 1.2                       # Overall lifestyle satisfaction factor
-        score += (mental_balance - 5) * 1.2                  # Better mental equilibrium adds points
-        score += social * 0.5                              # Social interaction is beneficial
-        score -= stress * 1.2                              # Higher stress detracts from longevity
-        
-        # Genetic and habit influences:
-        if family_history == "بله":
-            score += 5                                   # Favorable familial longevity adds points
-        if smoking == "بله":
-            score -= 10                                  # Smoking has a significant negative effect
-        score -= alcohol * 0.8                           # Excessive alcohol consumption reduces longevity
-        
-        # Environmental and healthcare factors:
-        score -= (pollution - 5) * 1.5                     # Living in highly polluted areas deducts points
-        score += healthcare * 0.7                        # Better access to healthcare raises the score
-        
-        # Additional lifestyle and psychological factors:
-        score += (entertainment - 5) * 1.0                 # Enjoyment in leisure activities improves score
-        score += (work_env - 5) * 1.0                      # A positive work/study environment contributes
-        score += (tech_experience - 5) * 0.5               # Comfort with modern technology adds marginally
-        score += (self_belief - 5) * 1.0                   # Confidence in personal success is beneficial
-        
-        # Limit the final score to a logical range between 40 and 120 years.
-        score = max(40, min(score, 120))
-        result = round(score, 1)
-        
-        return render_template("result.html", result=result)
-    
-    return render_template("index.html")
+        query = request.form.get("query")
+        articles = search_pubmed(query)
+        suggestions = analyze_results(articles)
+    return render_template("index.html", articles=articles, suggestions=suggestions, query=query)
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(debug=True)
