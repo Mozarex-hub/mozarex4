@@ -1,54 +1,56 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mozarex عمرآفرین</title>
-  <!-- لینک به فریمورک مدرن Bootstrap -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      background-color: #f4f4f4;
-      font-family: 'Tahoma', sans-serif;
-    }
-    .container {
-      margin-top: 50px;
-    }
-    .card {
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    .footer {
-      text-align: center;
-      padding: 10px;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background-color: #fff;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MozarexLife - زندگی سالم‌تر</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-  <div class="container">
-    <div class="card">
-      <div class="card-body">
-        <h2 class="card-title text-center">خوش آمدید به Mozarex عمرآفرین</h2>
-        <p class="text-center">لطفاً اطلاعات سبک زندگی خود را وارد کنید تا پیشنهادهای بهبود سلامت و طول عمر ارائه شود.</p>
-        <form method="POST" action="/">
-          <div class="form-group">
-            <label for="lifestyle">سبک زندگی شما</label>
-            <textarea class="form-control" id="lifestyle" name="lifestyle" rows="3" placeholder="مثال: عادات غذایی، فعالیت‌های ورزشی، الگوی روزانه" required></textarea>
-          </div>
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary">ارسال</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  <div class="footer">
-    <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="Logo" width="50">
-    <p>کلیه حقوق محفوظ است</p>
-  </div>
+    <header>
+        <img src="logo.jpeg" alt="MozarexLife Logo" class="logo">
+        <h1>MozarexLife - راهی به سوی زندگی طولانی‌تر</h1>
+    </header>
+
+    <main>
+        <section class="form-section">
+            <h2>سبک زندگی شما چگونه است؟</h2>
+            <form id="lifestyleForm">
+                <label for="exercise">چند بار در هفته ورزش می‌کنید؟</label>
+                <select id="exercise">
+                    <option value="0">اصلاً</option>
+                    <option value="1-2">۱-۲ بار</option>
+                    <option value="3-5">۳-۵ بار</option>
+                    <option value="6+">بیش از ۶ بار</option>
+                </select>
+
+                <label for="diet">رژیم غذایی شما چگونه است؟</label>
+                <select id="diet">
+                    <option value="unhealthy">نامناسب (فست فود، قند زیاد)</option>
+                    <option value="balanced">متعادل (سبزیجات، پروتئین، غلات)</option>
+                    <option value="healthy">بسیار سالم (گیاه‌خواری، رژیم مدیترانه‌ای)</option>
+                </select>
+
+                <label for="sleep">چند ساعت در شب می‌خوابید؟</label>
+                <select id="sleep">
+                    <option value="less6">کمتر از ۶ ساعت</option>
+                    <option value="6-8">۶-۸ ساعت</option>
+                    <option value="more8">بیش از ۸ ساعت</option>
+                </select>
+
+                <button type="submit">دریافت توصیه‌ها</button>
+            </form>
+        </section>
+
+        <section id="recommendations" class="hidden">
+            <h2>توصیه‌های علمی برای زندگی طولانی‌تر</h2>
+            <p id="aiAdvice">در حال پردازش...</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 MozarexLife. تمامی حقوق محفوظ است.</p>
+    </footer>
 </body>
 </html>
