@@ -1,439 +1,128 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mozarex - مشاور طول عمر</title>
-  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.23.3/babel.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
-    body {
-      font-family: 'Vazirmatn', sans-serif;
-      background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
-      color: #2d3748;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    .chat-bubble {
-      background-color: #ffffff;
-      border-radius: 20px;
-      padding: 15px;
-      margin-bottom: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    .user-bubble {
-      background-color: #e6f7ff;
-    }
-    .bot-bubble {
-      background-color: #f0f4f8;
-    }
-    .progress-bar {
-      background-color: #e0e0e0;
-      border-radius: 20px;
-      height: 20px;
-      width: 100%;
-      position: relative;
-    }
-    .progress-bar-fill {
-      background-color: #4caf50;
-      border-radius: 20px;
-      height: 100%;
-      transition: width 0.5s ease-in-out;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>مشاور طول عمر mozarex</title>
+    <style>
+        body {
+            font-family: Tahoma, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            direction: rtl;
+            text-align: right;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        header h1 {
+            margin: 0;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input[type="number"],
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+        }
+        input[type="submit"] {
+            padding: 10px;
+            background: #333;
+            color: #fff;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background: #555;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 14px;
+            color: #777;
+        }
+        footer img {
+            height: 50px;
+            display: block;
+            margin: 0 auto 10px;
+        }
+    </style>
 </head>
 <body>
-  <div id="root"></div>
-
-  <script type="text/babel">
-    const Logo = () => (
-      <div className="flex items-center justify-center mb-6">
-        <img src="logo.jpeg" alt="Mozarex Logo" className="w-16 h-16 mr-2" />
-        <h1 className="text-3xl font-bold text-blue-600">Mozarex - مشاور طول عمر</h1>
-      </div>
-    );
-
-    const LoginPage = ({ onLogin }) => {
-      const [username, setUsername] = React.useState('');
-      const [password, setPassword] = React.useState('');
-
-      const handleLogin = () => {
-        if (username && password) {
-          onLogin(username);
-        }
-      };
-
-      return (
-        <div className="container text-center">
-          <Logo />
-          <h2 className="text-2xl font-semibold mb-4">ورود به حساب کاربری</h2>
-          <div className="space-y-4">
-            <input
-              type="text"
-              placeholder="نام کاربری"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="w-full p-2 border rounded-lg"
-            />
-            <input
-              type="password"
-              placeholder="رمز عبور"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 border rounded-lg"
-            />
-            <button
-              onClick={handleLogin}
-              className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300"
-            >
-              ورود
-            </button>
-          </div>
-        </div>
-      );
-    };
-
-    const Dashboard = ({ user, onStartAssessment, onViewProgress, onSetGoals }) => (
-      <div className="container">
-        <Logo />
-        <h2 className="text-2xl font-semibold mb-4">خوش آمدید، {user}!</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <button
-            onClick={onStartAssessment}
-            className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300"
-          >
-            شروع ارزیابی سبک زندگی
-          </button>
-          <button
-            onClick={onViewProgress}
-            className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition duration-300"
-          >
-            مشاهده پیشرفت
-          </button>
-          <button
-            onClick={onSetGoals}
-            className="bg-purple-500 text-white px-6 py-3 rounded-lg hover:bg-purple-600 transition duration-300"
-          >
-            تنظیم اهداف
-          </button>
-        </div>
-      </div>
-    );
-
-    const LifestyleAssessment = ({ onSubmit }) => {
-      const [formData, setFormData] = React.useState({
-        diet: '',
-        exercise: '',
-        sleep: '',
-        stress: '',
-        smoking: '',
-        alcohol: '',
-        social: '',
-      });
-
-      const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-      };
-
-      const handleSubmit = () => {
-        onSubmit(formData);
-      };
-
-      return (
-        <div className="container">
-          <Logo />
-          <h2 className="text-2xl font-semibold mb-4">ارزیابی سبک زندگی</h2>
-          <div className="space-y-4">
-            <div>
-              <label className="block mb-1">رژیم غذایی شما چگونه است؟</label>
-              <select name="diet" value={formData.diet} onChange={handleChange} className="w-full p-2 border rounded-lg">
-                <option value="">انتخاب کنید</option>
-                <option value="سالم">سالم</option>
-                <option value="متوسط">متوسط</option>
-                <option value="ناسالم">ناسالم</option>
-              </select>
+    <div class="container">
+        <header>
+            <h1>مشاور طول عمر mozarex</h1>
+        </header>
+        <p>لطفاً برخی اطلاعات از سبک زندگی خود را وارد نمایید تا بتوانیم راه‌های افزایش طول عمر را به شما پیشنهاد دهیم.</p>
+        <form action="/result" method="POST">
+            <div class="form-group">
+                <label for="age">سن:</label>
+                <input type="number" id="age" name="age" required>
             </div>
-            <div>
-              <label className="block mb-1">چقدر ورزش می‌کنید؟</label>
-              <select name="exercise" value={formData.exercise} onChange={handleChange} className="w-full p-2 border rounded-lg">
-                <option value="">انتخاب کنید</option>
-                <option value="زیاد">زیاد</option>
-                <option value="میانه">متوسط</option>
-                <option value="کم">کم</option>
-              </select>
-            </div>
-            <div>
-              <label className="block mb-1">کیفیت خواب شما چگونه است؟</label>
-              <select name="sleep" value={formData.sleep} onChange={handleChange} className="w-full p-2 border rounded-lg">
-                <option value="">انتخاب کنید</option>
-                <option value="خوب">خوب</option>
-                <option value="متوسط">متوسط</option>
-                <option value="ضعیف">ضعیف</option>
-              </select>
-            </div>
-            <div>
-              <label className="block mb-1">سطح استرس شما چقدر است؟</label>
-              <select name="stress" value={formData.stress} onChange={handleChange} className="w-full p-2 border rounded-lg">
-                <option value="">انتخاب کنید</option>
-                <option value="کم">کم</option>
-                <option value="متوسط">متوسط</option>
-                <option value="زیاد">زیاد</option>
-              </select>
-            </div>
-            <div>
-              <label className="block mb-1">آیا سیگار می‌کشید؟</label>
-              <select name="smoking" value={formData.smoking} onChange={handleChange} className="w-full p-2 border rounded-lg">
-                <option value="">انتخاب کنید</option>
-                <option value="بله">بله</option>
-                <option value="خیر">خیر</option>
-              </select>
-            </div>
-            <div>
-              <label className="block mb-1">مصرف الکل شما چقدر است؟</label>
-              <select name="alcohol" value={formData.alcohol} onChange={handleChange} className="w-full p-2 border rounded-lg">
-                <option value="">انتخاب کنید</option>
-                <option value="زیاد">زیاد</option>
-                <option value="متوسط">متوسط</option>
-                <option value="کم">کم</option>
-                <option value="هیچ">هیچ</option>
-              </select>
-            </div>
-            <div>
-              <label className="block mb-1">تعاملات اجتماعی شما چگونه است؟</label>
-              <select name="social" value={formData.social} onChange={handleChange} className="w-full p-2 border rounded-lg">
-                <option value="">انتخاب کنید</option>
-                <option value="زیاد">زیاد</option>
-                <option value="متوسط">متوسط</option>
-                <option value="کم">کم</option>
-              </select>
-            </div>
-            <button
-              onClick={handleSubmit}
-              className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300"
-            >
-              دریافت پیشنهادات
-            </button>
-          </div>
-        </div>
-      );
-    };
-
-    const ProgressPage = ({ userData, goals }) => {
-      const chartRef = React.useRef(null);
-
-      React.useEffect(() => {
-        const ctx = chartRef.current.getContext("2d");
-        new Chart(ctx, {
-          type: "radar",
-          data: {
-            labels: ["رژیم غذایی", "ورزش", "خواب", "استرس", "سیگار", "الکل", "تعاملات اجتماعی"],
-            datasets: [
-              {
-                label: "وضعیت فعلی",
-                data: [
-                  userData.diet === "سالم" ? 3 : userData.diet === "متوسط" ? 2 : 1,
-                  userData.exercise === "زیاد" ? 3 : userData.exercise === "متوسط" ? 2 : 1,
-                  userData.sleep === "خوب" ? 3 : userData.sleep === "متوسط" ? 2 : 1,
-                  userData.stress === "کم" ? 3 : userData.stress === "متوسط" ? 2 : 1,
-                  userData.smoking === "خیر" ? 3 : 1,
-                  userData.alcohol === "هیچ" ? 3 : userData.alcohol === "کم" ? 2 : 1,
-                  userData.social === "زیاد" ? 3 : userData.social === "متوسط" ? 2 : 1,
-                ],
-                backgroundColor: "rgba(76, 175, 80, 0.2)",
-                borderColor: "#4caf50",
-                pointBackgroundColor: "#4caf50",
-              },
-              {
-                label: "اهداف",
-                data: goals.map(goal => goal.target),
-                backgroundColor: "rgba(33, 150, 243, 0.2)",
-                borderColor: "#2196f3",
-                pointBackgroundColor: "#2196f3",
-              },
-            ],
-          },
-          options: {
-            scales: {
-              r: {
-                beginAtZero: true,
-                max: 3,
-                ticks: {
-                  stepSize: 1,
-                  callback: (value) => ["ضعیف", "متوسط", "خوب"][value - 1],
-                },
-              },
-            },
-          },
-        });
-      }, [userData, goals]);
-
-      return (
-        <div className="container">
-          <Logo />
-          <h2 className="text-2xl font-semibold mb-4">پیشرفت شما</h2>
-          <canvas ref={chartRef} className="w-full h-96"></canvas>
-        </div>
-      );
-    };
-
-    const GoalsPage = ({ onSetGoals }) => {
-      const [goals, setGoals] = React.useState([
-        { category: "رژیم غذایی", target: 3 },
-        { category: "ورزش", target: 3 },
-        { category: "خواب", target: 3 },
-        { category: "استرس", target: 3 },
-        { category: "سیگار", target: 3 },
-        { category: "الکل", target: 3 },
-        { category: "تعاملات اجتماعی", target: 3 },
-      ]);
-
-      const handleGoalChange = (index, value) => {
-        const newGoals = [...goals];
-        newGoals[index].target = value;
-        setGoals(newGoals);
-      };
-
-      const handleSubmit = () => {
-        onSetGoals(goals);
-      };
-
-      return (
-        <div className="container">
-          <Logo />
-          <h2 className="text-2xl font-semibold mb-4">تنظیم اهداف</h2>
-          <div className="space-y-4">
-            {goals.map((goal, index) => (
-              <div key={index}>
-                <label className="block mb-1">{goal.category}</label>
-                <select
-                  value={goal.target}
-                  onChange={(e) => handleGoalChange(index, parseInt(e.target.value))}
-                  className="w-full p-2 border rounded-lg"
-                >
-                  <option value={1}>ضعیف</option>
-                  <option value={2}>متوسط</option>
-                  <option value={3}>خوب</option>
+            <div class="form-group">
+                <label for="gender">جنسیت:</label>
+                <select id="gender" name="gender" required>
+                    <option value="مرد">مرد</option>
+                    <option value="زن">زن</option>
                 </select>
-              </div>
-            ))}
-            <button
-              onClick={handleSubmit}
-              className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300"
-            >
-              ذخیره اهداف
-            </button>
-          </div>
-        </div>
-      );
-    };
-
-    const ResultsPage = ({ suggestions, userData }) => (
-      <div className="container">
-        <Logo />
-        <h2 className="text-2xl font-semibold mb-4">پیشنهادات برای افزایش طول عمر</h2>
-        <ul className="space-y-4">
-          {suggestions.map((suggestion, index) => (
-            <li key={index} className="p-4 bg-white rounded-lg shadow">
-              {suggestion}
-            </li>
-          ))}
-        </ul>
-        <p className="text-sm text-gray-600 mt-4">
-          * این پیشنهادات بر اساس تحقیقات علمی از PubMed ارائه شده‌اند و جایگزین مشاوره پزشکی حرفه‌ای نیستند.
-        </p>
-      </div>
-    );
-
-    const Footer = () => (
-      <footer className="text-center py-6 text-gray-600">
-        <p>© 2025 Mozarex - کلیه حقوق محفوظ است</p>
-        <div className="space-x-4">
-          <a href="#" className="hover:underline">شرایط استفاده</a>
-          <a href="#" className="hover:underline">سیاست حفظ حریم خصوصی</a>
-          <a href="#" className="hover:underline">تماس با ما</a>
-        </div>
-      </footer>
-    );
-
-    const App = () => {
-      const [page, setPage] = React.useState('login');
-      const [user, setUser] = React.useState(null);
-      const [userData, setUserData] = React.useState(null);
-      const [goals, setGoals] = React.useState([]);
-      const [suggestions, setSuggestions] = React.useState([]);
-
-      const handleLogin = (username) => {
-        setUser(username);
-        setPage('dashboard');
-      };
-
-      const handleStartAssessment = () => setPage('assessment');
-
-      const handleViewProgress = () => setPage('progress');
-
-      const handleSetGoals = () => setPage('goals');
-
-      const handleAssessmentSubmit = async (formData) => {
-        setUserData(formData);
-        const keywords = [];
-        if (formData.diet === 'ناسالم') keywords.push('diet health');
-        if (formData.exercise === 'کم') keywords.push('physical activity longevity');
-        if (formData.sleep === 'ضعیف') keywords.push('sleep health');
-        if (formData.stress === 'زیاد') keywords.push('stress reduction');
-        if (formData.smoking === 'بله') keywords.push('smoking cessation');
-        if (formData.alcohol === 'زیاد') keywords.push('alcohol moderation');
-        if (formData.social === 'کم') keywords.push('social interaction health');
-
-        const mockSuggestions = keywords.map(keyword => {
-          if (keyword === 'diet health') return 'مصرف بیشتر میوه‌ها و سبزیجات می‌تواند خطر بیماری‌های قلبی را کاهش دهد (PubMed ID: 123456).';
-          if (keyword === 'physical activity longevity') return 'افزایش فعالیت بدنی هفتگی به بهبود طول عمر کمک می‌کند (PubMed ID: 789101).';
-          if (keyword === 'sleep health') return 'خواب کافی (۷-۸ ساعت) با کاهش التهاب مرتبط است (PubMed ID: 456789).';
-          if (keyword === 'stress reduction') return 'مدیتیشن روزانه می‌تواند استرس را کاهش داده و سلامت روان را بهبود بخشد (PubMed ID: 101112).';
-          if (keyword === 'smoking cessation') return 'ترک سیگار می‌تواند خطر بیماری‌های ریوی را به طور قابل توجهی کاهش دهد (PubMed ID: 131415).';
-          if (keyword === 'alcohol moderation') return 'کاهش مصرف الکل می‌تواند به بهبود سلامت کبد کمک کند (PubMed ID: 161718).';
-          if (keyword === 'social interaction health') return 'افزایش تعاملات اجتماعی می‌تواند سلامت روان و طول عمر را بهبود بخشد (PubMed ID: 192021).';
-          return '';
-        }).filter(Boolean);
-
-        setSuggestions(mockSuggestions.length > 0 ? mockSuggestions : ['سبک زندگی شما متعادل است، به حفظ آن ادامه دهید!']);
-        setPage('results');
-      };
-
-      const handleGoalsSubmit = (newGoals) => {
-        setGoals(newGoals);
-        setPage('dashboard');
-      };
-
-      return (
-        <div className="min-h-screen flex flex-col justify-between">
-          <div>
-            {page === 'login' && <LoginPage onLogin={handleLogin} />}
-            {page === 'dashboard' && (
-              <Dashboard
-                user={user}
-                onStartAssessment={handleStartAssessment}
-                onViewProgress={handleViewProgress}
-                onSetGoals={handleSetGoals}
-              />
-            )}
-            {page === 'assessment' && <LifestyleAssessment onSubmit={handleAssessmentSubmit} />}
-            {page === 'progress' && <ProgressPage userData={userData} goals={goals} />}
-            {page === 'goals' && <GoalsPage onSetGoals={handleGoalsSubmit} />}
-            {page === 'results' && <ResultsPage suggestions={suggestions} userData={userData} />}
-          </div>
-          <Footer />
-        </div>
-      );
-    };
-
-    ReactDOM.render(<App />, document.getElementById('root'));
-  </script>
+            </div>
+            <div class="form-group">
+                <label for="activity">سطح فعالیت بدنی:</label>
+                <select id="activity" name="activity" required>
+                    <option value="کم">کم</option>
+                    <option value="متوسط">متوسط</option>
+                    <option value="زیاد">زیاد</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="diet">رژیم غذایی:</label>
+                <select id="diet" name="diet" required>
+                    <option value="نامتعادل">نامتعادل</option>
+                    <option value="متعادل">متعادل</option>
+                    <option value="سالم">سالم</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="sleep">کیفیت خواب:</label>
+                <select id="sleep" name="sleep" required>
+                    <option value="ضعیف">ضعیف</option>
+                    <option value="متوسط">متوسط</option>
+                    <option value="خوب">خوب</option>
+                </select>
+            </div>
+            <input type="submit" value="ارسال">
+        </form>
+        <footer>
+            <img src="logo.jpeg" alt="Logo">
+            <p>تمامی حقوق محفوظ است</p>
+        </footer>
+    </div>
 </body>
 </html>
