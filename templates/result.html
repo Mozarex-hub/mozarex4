@@ -2,42 +2,70 @@
 <html lang="fa">
 <head>
     <meta charset="UTF-8">
-    <title>نتیجه مشاور طول عمر mozarex</title>
+    <title>نتیجه مشاور طول عمر mozarex™ - نسخه 1.0</title>
     <style>
         body {
             font-family: Tahoma, sans-serif;
             margin: 0;
             padding: 0;
-            background: #f4f4f4;
+            background: linear-gradient(to bottom, #f4f4f4, #e0e0e0);
             direction: rtl;
             text-align: right;
         }
         .container {
             width: 90%;
-            max-width: 800px;
+            max-width: 900px;
             margin: 50px auto;
             background: #fff;
-            padding: 30px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
         }
         header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
         header h1 {
             margin: 0;
             color: #333;
+            font-size: 2em;
         }
-        ul {
-            list-style-type: none;
+        header h2 {
+            margin: 5px 0 0;
+            font-size: 1em;
+            color: #777;
+        }
+        .summary-section, .suggestions-section {
+            margin-bottom: 30px;
+        }
+        .summary-section h3,
+        .suggestions-section h3 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .summary-section table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .summary-section th, .summary-section td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        .summary-section th {
+            background-color: #f0f0f0;
+        }
+        .suggestions-section ul {
+            list-style: none;
             padding: 0;
         }
-        li {
+        .suggestions-section li {
             background: #eee;
-            margin: 8px 0;
-            padding: 10px;
-            border-radius: 4px;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 5px;
         }
         footer {
             text-align: center;
@@ -51,24 +79,75 @@
             display: block;
             margin: 0 auto 10px;
         }
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            .summary-section table, .summary-section th, .summary-section td {
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>نتیجه مشاور طول عمر mozarex</h1>
+            <h1>نتیجه مشاور طول عمر mozarex™</h1>
+            <h2>نسخه 1.0</h2>
         </header>
-        <p>بر اساس اطلاعات ارائه شده، موارد زیر جهت بهبود سبک زندگی شما پیشنهاد می‌شود:</p>
-        <ul>
-            {% for suggestion in suggestions %}
-                <li>{{ suggestion }}</li>
-            {% endfor %}
-        </ul>
-        <p>با اعمال این توصیه‌ها، مسیر زندگی سالم‌تر و طولانی‌تری در پیش خواهید داشت.</p>
+        <section class="summary-section">
+            <h3>اطلاعات دریافت شده</h3>
+            <table>
+                <tr>
+                    <th>سن</th>
+                    <th>جنسیت</th>
+                    <th>فعالیت بدنی</th>
+                    <th>رژیم غذایی</th>
+                    <th>کیفیت خواب</th>
+                </tr>
+                <tr>
+                    <td>{{ age }}</td>
+                    <td>{{ gender }}</td>
+                    <td>{{ activity }}</td>
+                    <td>{{ diet }}</td>
+                    <td>{{ sleep }}</td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <th>وزن (کیلوگرم)</th>
+                    <th>قد (سانتی‌متر)</th>
+                    <th>سطح استرس</th>
+                    <th>مصرف سیگار</th>
+                    <th>مصرف الکل</th>
+                    <th>شاخص توده بدن (BMI)</th>
+                </tr>
+                <tr>
+                    <td>{{ weight }}</td>
+                    <td>{{ height }}</td>
+                    <td>{{ stress }}</td>
+                    <td>{{ smoking }}</td>
+                    <td>{{ alcohol }}</td>
+                    <td>
+                        {% if height|float > 0 %}
+                            {{ "%.2f"|format(weight|float / ((height|float/100) * (height|float/100))) }}
+                        {% else %}
+                            نامعتبر
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+        </section>
+        <section class="suggestions-section">
+            <h3>توصیه‌های سیستم هوش مصنوعی</h3>
+            <ul>
+                {% for suggestion in suggestions %}
+                    <li>{{ suggestion }}</li>
+                {% endfor %}
+            </ul>
+            <p style="text-align: center; margin-top: 20px;">
+                با اعمال این توصیه‌ها، مسیر زندگی سالم‌تر و طولانی‌تری در پیش خواهید داشت.
+            </p>
+        </section>
         <footer>
-            <img src="logo.jpeg" alt="Logo">
-            <p>تمامی حقوق محفوظ است</p>
-        </footer>
-    </div>
-</body>
-</html>
+            <img src="logo.jpeg
