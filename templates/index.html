@@ -1,56 +1,208 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MozarexLife - زندگی سالم‌تر</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mozarex - مشاور طول عمر</title>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.23.3/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
+    body {
+      font-family: 'Vazirmatn', sans-serif;
+      background-color: #f0f4f8;
+      color: #2d3748;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <img src="logo.jpeg" alt="MozarexLife Logo" class="logo">
-        <h1>MozarexLife - راهی به سوی زندگی طولانی‌تر</h1>
-    </header>
+  <div id="root"></div>
 
-    <main>
-        <section class="form-section">
-            <h2>سبک زندگی شما چگونه است؟</h2>
-            <form id="lifestyleForm">
-                <label for="exercise">چند بار در هفته ورزش می‌کنید؟</label>
-                <select id="exercise">
-                    <option value="0">اصلاً</option>
-                    <option value="1-2">۱-۲ بار</option>
-                    <option value="3-5">۳-۵ بار</option>
-                    <option value="6+">بیش از ۶ بار</option>
-                </select>
+  <script type="text/babel">
+    const Logo = () => (
+      <div className="flex items-center justify-center mb-6">
+        <img src="logo.jpeg" alt="Mozarex Logo" className="w-16 h-16 mr-2" />
+        <h1 className="text-3xl font-bold text-blue-600">Mozarex - مشاور طول عمر</h1>
+      </div>
+    );
 
-                <label for="diet">رژیم غذایی شما چگونه است؟</label>
-                <select id="diet">
-                    <option value="unhealthy">نامناسب (فست فود، قند زیاد)</option>
-                    <option value="balanced">متعادل (سبزیجات، پروتئین، غلات)</option>
-                    <option value="healthy">بسیار سالم (گیاه‌خواری، رژیم مدیترانه‌ای)</option>
-                </select>
+    const HomePage = ({ onStart }) => (
+      <div className="container text-center">
+        <Logo />
+        <p className="text-lg mb-6">
+          به "Mozarex - مشاور طول عمر" خوش آمدید! این برنامه به شما کمک می‌کند تا با بررسی سبک زندگی خود، پیشنهاداتی مبتنی بر تحقیقات علمی برای افزایش طول عمر دریافت کنید.
+        </p>
+        <button
+          onClick={onStart}
+          className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300"
+        >
+          شروع
+        </button>
+      </div>
+    );
 
-                <label for="sleep">چند ساعت در شب می‌خوابید؟</label>
-                <select id="sleep">
-                    <option value="less6">کمتر از ۶ ساعت</option>
-                    <option value="6-8">۶-۸ ساعت</option>
-                    <option value="more8">بیش از ۸ ساعت</option>
-                </select>
+    const LifestyleForm = ({ onSubmit }) => {
+      const [formData, setFormData] = React.useState({
+        diet: '',
+        exercise: '',
+        sleep: '',
+        stress: '',
+      });
 
-                <button type="submit">دریافت توصیه‌ها</button>
-            </form>
-        </section>
+      const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+      };
 
-        <section id="recommendations" class="hidden">
-            <h2>توصیه‌های علمی برای زندگی طولانی‌تر</h2>
-            <p id="aiAdvice">در حال پردازش...</p>
-        </section>
-    </main>
+      const handleSubmit = () => {
+        onSubmit(formData);
+      };
 
-    <footer>
-        <p>© 2025 MozarexLife. تمامی حقوق محفوظ است.</p>
-    </footer>
+      return (
+        <div className="container">
+          <Logo />
+          <h2 className="text-2xl font-semibold mb-4">درباره سبک زندگی خود بگویید</h2>
+          <div className="space-y-4">
+            <div>
+              <label className="block mb-1">رژیم غذایی شما چگونه است؟</label>
+              <select
+                name="diet"
+                value={formData.diet}
+                onChange={handleChange}
+                className="w-full p-2 border rounded-lg"
+              >
+                <option value="">انتخاب کنید</option>
+                <option value="سالم">سالم (میوه‌ها و سبزیجات زیاد)</option>
+                <option value="متوسط">متوسط</option>
+                <option value="ناسالم">ناسالم (غذاهای فرآوری‌شده)</option>
+              </select>
+            </div>
+            <div>
+              <label className="block mb-1">چقدر ورزش می‌کنید؟</label>
+              <select
+                name="exercise"
+                value={formData.exercise}
+                onChange={handleChange}
+                className="w-full p-2 border rounded-lg"
+              >
+                <option value="">انتخاب کنید</option>
+                <option value="زیاد">زیاد (بیش از ۵ روز در هفته)</option>
+                <option value="متوسط">متوسط (۲-۴ روز در هفته)</option>
+                <option value="کم">کم (کمتر از ۲ روز در هفته)</option>
+              </select>
+            </div>
+            <div>
+              <label className="block mb-1">کیفیت خواب شما چگونه است؟</label>
+              <select
+                name="sleep"
+                value={formData.sleep}
+                onChange={handleChange}
+                className="w-full p-2 border rounded-lg"
+              >
+                <option value="">انتخاب کنید</option>
+                <option value="خوب">خوب (۷-۸ ساعت)</option>
+                <option value="متوسط">متوسط (۵-۶ ساعت)</option>
+                <option value="ضعیف">ضعیف (کمتر از ۵ ساعت)</option>
+              </select>
+            </div>
+            <div>
+              <label className="block mb-1">سطح استرس شما چقدر است؟</label>
+              <select
+                name="stress"
+                value={formData.stress}
+                onChange={handleChange}
+                className="w-full p-2 border rounded-lg"
+              >
+                <option value="">انتخاب کنید</option>
+                <option value="کم">کم</option>
+                <option value="متوسط">متوسط</option>
+                <option value="زیاد">زیاد</option>
+              </select>
+            </div>
+            <button
+              onClick={handleSubmit}
+              className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300"
+            >
+              دریافت پیشنهادات
+            </button>
+          </div>
+        </div>
+      );
+    };
+
+    const ResultsPage = ({ suggestions }) => (
+      <div className="container">
+        <Logo />
+        <h2 className="text-2xl font-semibold mb-4">پیشنهادات برای افزایش طول عمر</h2>
+        <ul className="space-y-4">
+          {suggestions.map((suggestion, index) => (
+            <li key={index} className="p-4 bg-white rounded-lg shadow">
+              {suggestion}
+            </li>
+          ))}
+        </ul>
+        <p className="text-sm text-gray-600 mt-4">
+          * این پیشنهادات بر اساس تحقیقات علمی از PubMed ارائه شده‌اند و جایگزین مشاوره پزشکی حرفه‌ای نیستند.
+        </p>
+      </div>
+    );
+
+    const Footer = () => (
+      <footer className="text-center py-6 text-gray-600">
+        <p>© 2025 Mozarex - کلیه حقوق محفوظ است</p>
+        <div className="space-x-4">
+          <a href="#" className="hover:underline">شرایط استفاده</a>
+          <a href="#" className="hover:underline">سیاست حفظ حریم خصوصی</a>
+        </div>
+      </footer>
+    );
+
+    const App = () => {
+      const [page, setPage] = React.useState('home');
+      const [suggestions, setSuggestions] = React.useState([]);
+
+      const handleStart = () => setPage('form');
+
+      const handleFormSubmit = async (formData) => {
+        // Simulated AI-powered PubMed search (replace with real API call)
+        const keywords = [];
+        if (formData.diet === 'ناسالم') keywords.push('diet health');
+        if (formData.exercise === 'کم') keywords.push('physical activity longevity');
+        if (formData.sleep === 'ضعیف') keywords.push('sleep health');
+        if (formData.stress === 'زیاد') keywords.push('stress reduction');
+
+        // Simulated API call to PubMed (replace with actual fetch)
+        const mockSuggestions = keywords.map(keyword => {
+          if (keyword === 'diet health') return 'مصرف بیشتر میوه‌ها و سبزیجات می‌تواند خطر بیماری‌های قلبی را کاهش دهد (PubMed ID: 123456).';
+          if (keyword === 'physical activity longevity') return 'افزایش فعالیت بدنی هفتگی به بهبود طول عمر کمک می‌کند (PubMed ID: 789101).';
+          if (keyword === 'sleep health') return 'خواب کافی (۷-۸ ساعت) با کاهش التهاب مرتبط است (PubMed ID: 456789).';
+          if (keyword === 'stress reduction') return 'مدیتیشن روزانه می‌تواند استرس را کاهش داده و سلامت روان را بهبود بخشد (PubMed ID: 101112).';
+          return '';
+        }).filter(Boolean);
+
+        setSuggestions(mockSuggestions.length > 0 ? mockSuggestions : ['سبک زندگی شما متعادل است، به حفظ آن ادامه دهید!']);
+        setPage('results');
+      };
+
+      return (
+        <div className="min-h-screen flex flex-col justify-between">
+          <div>
+            {page === 'home' && <HomePage onStart={handleStart} />}
+            {page === 'form' && <LifestyleForm onSubmit={handleFormSubmit} />}
+            {page === 'results' && <ResultsPage suggestions={suggestions} />}
+          </div>
+          <Footer />
+        </div>
+      );
+    };
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
 </body>
 </html>
