@@ -30,43 +30,40 @@
             direction: rtl;
             text-align: right;
             color: var(--text-color);
-            line-height: 1.6;
+            line-height: 1.5;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            touch-action: pan-y; /* Improves scrolling */
+            touch-action: pan-y;
         }
         .container {
-            width: 95%;
-            max-width: 1000px;
-            margin: 15px auto;
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
             background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(6px);
-            padding: 15px;
-            border-radius: 12px;
-            border: 2px solid transparent;
-            border-image: linear-gradient(45deg, var(--primary-color), var(--secondary-color)) 1;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2), 0 0 10px rgba(255, 0, 255, 0.2);
+            backdrop-filter: blur(5px);
+            padding: 10px;
+            border-radius: 0;
+            border: none;
+            min-height: 100vh;
             position: relative;
             overflow: hidden;
         }
         .container::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, transparent 20%, var(--primary-color) 25%, var(--secondary-color) 45%, transparent 50%);
-            background-size: 40px 40px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 240, 255, 0.15), transparent 70%);
             z-index: 0;
-            opacity: 0.08;
-            animation: rotateBackground 25s linear infinite;
+            animation: pulse 8s ease-in-out infinite;
             will-change: transform;
         }
-        @keyframes rotateBackground {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.15; }
+            50% { transform: scale(1.2); opacity: 0.08; }
         }
         .container > * {
             position: relative;
@@ -74,34 +71,34 @@
         }
         header {
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         header h1 {
-            font-size: 2em;
+            font-size: 1.8em;
             font-weight: 700;
-            letter-spacing: 1px;
-            text-shadow: 0 0 6px var(--primary-color);
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 5px var(--primary-color);
         }
         header h2 {
-            font-size: 1.1em;
+            font-size: 1em;
             color: var(--primary-color);
-            text-shadow: 0 0 3px var(--primary-color);
+            text-shadow: 0 0 2px var(--primary-color);
         }
         p.instructions {
             text-align: center;
-            font-size: 1em;
-            margin-bottom: 15px;
+            font-size: 0.9em;
+            margin-bottom: 10px;
             color: var(--text-color);
-            text-shadow: 0 0 3px var(--secondary-color);
+            text-shadow: 0 0 2px var(--secondary-color);
         }
         .progress-container {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         .progress-bar {
             width: 100%;
-            height: 12px;
+            height: 10px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
+            border-radius: 5px;
             overflow: hidden;
         }
         .progress-fill {
@@ -113,28 +110,28 @@
         form {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 12px;
+            gap: 10px;
         }
         .form-group {
             display: flex;
             flex-direction: column;
         }
         label {
-            font-size: 1em;
+            font-size: 0.95em;
             font-weight: 700;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
             color: var(--text-color);
         }
         input[type="number"],
         select {
-            padding: 10px;
-            font-size: 0.95em;
+            padding: 8px;
+            font-size: 0.9em;
             border: 2px solid var(--bg-light);
-            border-radius: 5px;
+            border-radius: 4px;
             background: rgba(255, 255, 255, 0.1);
             color: var(--text-color);
-            transition: border-color 0.3s ease, background 0.3s ease;
-            min-height: 50px;
+            transition: border-color 0.2s ease, background 0.2s ease;
+            min-height: 45px;
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
@@ -144,33 +141,33 @@
             border-color: var(--primary-color);
             background: rgba(255, 255, 255, 0.15);
             outline: none;
-            box-shadow: 0 0 6px var(--primary-color);
+            box-shadow: 0 0 5px var(--primary-color);
         }
         .error {
             color: var(--error-color);
-            font-size: 0.85em;
-            margin-top: 4px;
+            font-size: 0.8em;
+            margin-top: 3px;
             display: none;
         }
         .buttons {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
         input[type="submit"],
         input[type="reset"] {
-            padding: 12px;
-            font-size: 1em;
+            padding: 10px;
+            font-size: 0.95em;
             font-weight: 700;
             border: none;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 4px;
             width: 100%;
             background: var(--primary-color);
             color: #000;
-            text-shadow: 0 0 3px #000;
+            text-shadow: 0 0 2px #000;
             transition: background 0.2s ease;
-            min-height: 60px;
+            min-height: 50px;
             touch-action: manipulation;
         }
         input[type="submit"]:hover,
@@ -184,18 +181,18 @@
         }
         #bmiResult {
             text-align: center;
-            font-size: 1.1em;
+            font-size: 1em;
             font-weight: 700;
             color: var(--success-color);
-            margin-top: 8px;
-            min-height: 26px;
-            text-shadow: 0 0 3px var(--success-color);
+            margin-top: 6px;
+            min-height: 24px;
+            text-shadow: 0 0 2px var(--success-color);
         }
         .loading {
             display: none;
             text-align: center;
-            margin-top: 10px;
-            font-size: 1em;
+            margin-top: 8px;
+            font-size: 0.9em;
             color: var(--primary-color);
         }
         .loading::after {
@@ -209,46 +206,51 @@
         }
         footer {
             text-align: center;
-            margin-top: 15px;
-            padding: 15px;
-            font-size: 0.9em;
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 0.85em;
         }
         footer img {
-            height: 50px;
-            margin-bottom: 8px;
-            filter: drop-shadow(0 0 6px var(--primary-color));
+            height: 40px;
+            margin-bottom: 6px;
+            filter: drop-shadow(0 0 5px var(--primary-color));
         }
         @media (min-width: 768px) {
+            .container {
+                width: 90%;
+                max-width: 1000px;
+                margin: 20px auto;
+                padding: 20px;
+                border-radius: 12px;
+                border: 2px solid transparent;
+                border-image: linear-gradient(45deg, var(--primary-color), var(--secondary-color)) 1;
+            }
             form {
                 grid-template-columns: repeat(2, 1fr);
             }
             .buttons {
                 flex-direction: row;
-                gap: 15px;
+                gap: 12px;
             }
             input[type="submit"],
             input[type="reset"] {
                 width: 48%;
             }
             header h1 {
-                font-size: 2.5em;
+                font-size: 2.2em;
             }
             header h2 {
-                font-size: 1.3em;
-            }
-            p.instructions {
                 font-size: 1.2em;
             }
-            label {
+            p.instructions {
                 font-size: 1.1em;
+            }
+            label {
+                font-size: 1em;
             }
             input[type="number"],
             select {
-                font-size: 1em;
-            }
-            .container {
-                padding: 25px;
-                margin: 25px auto;
+                font-size: 0.95em;
             }
         }
     </style>
@@ -256,13 +258,13 @@
 <body>
     <div class="container">
         <header>
-            <img src="/static/logo.jpeg" alt="لوگوی mozarex" style="height:50px; margin-bottom:8px;" loading="lazy">
+            <img src="/static/logo.jpeg" alt="لوگوی mozarex" style="height:40px; margin-bottom:6px;" loading="lazy">
             <h1>مشاور افزایش طول عمر mozarex™</h1>
             <h2>نسخه 1.0</h2>
         </header>
         <p class="instructions">
             لطفاً اطلاعات سبک زندگی خود را وارد کنید تا سیستم هوش مصنوعی ما 
-            پیشنهادات شخصی سازی شده برای بهبود سلامت و افزایش طول عمر ارائه دهد.
+            پیشنهادهای پیشرفته‌ای برای بهبود سلامت و افزایش طول عمر ارائه دهد.
         </p>
         <form action="/result" method="POST" id="healthForm" novalidate>
             <div class="progress-container">
@@ -433,10 +435,11 @@
             if (isValid) {
                 submitButton.disabled = true;
                 loading.style.display = "block";
-                if ('vibrate' in navigator) navigator.vibrate(50); // Haptic feedback for Android
-                setTimeout(() => form.submit(), 500); // Simulate async submission
+                if ('vibrate' in navigator) navigator.vibrate(50);
+                setTimeout(() => form.submit(), 500);
             } else {
                 alert("لطفاً تمام فیلدها را به درستی پر کنید.");
+                if ('vibrate' in navigator) navigator.vibrate([50, 50, 50]);
             }
         }
 
