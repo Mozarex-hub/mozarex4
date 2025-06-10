@@ -2,71 +2,68 @@
 <html lang="fa">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <title>نتیجه مشاور افزایش طول عمر mozarex™ - نسخه 1.0</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet" media="screen">
     <style>
         :root {
-            --primary-color: #00ffff;
+            --primary-color: #00f0ff;
             --secondary-color: #ff00ff;
-            --bg-dark: #1a1a1a;
-            --bg-light: #2e2e2e;
-            --text-color: #e0e0e0;
+            --bg-dark: #121212;
+            --bg-light: #2a2a2a;
+            --text-color: #f0f0f0;
+            --error-color: #ff4d4d;
+            --success-color: #00ff80;
         }
         * {
             box-sizing: border-box;
-        }
-        body {
             margin: 0;
             padding: 0;
+        }
+        body {
             background: linear-gradient(135deg, var(--bg-dark), var(--bg-light));
             font-family: 'Orbitron', sans-serif;
             direction: rtl;
             text-align: right;
             color: var(--text-color);
+            line-height: 1.5;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            touch-action: pan-y;
         }
         .container {
-            width: 90%;
-            max-width: 900px;
-            margin: 40px auto;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 40px;
-            border-radius: 15px;
-            border: 2px solid transparent;
-            border-image: linear-gradient(45deg, var(--primary-color), var(--secondary-color)) 1;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), 0 0 20px rgba(255, 0, 255, 0.3);
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            padding: 10px;
+            border-radius: 0;
+            border: none;
+            min-height: 100vh;
             position: relative;
             overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-        .container:hover {
-            transform: scale(1.01);
         }
         .container::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(
-                circle,
-                transparent 20%,
-                var(--primary-color) 20%,
-                var(--secondary-color) 40%,
-                transparent 40%,
-                transparent 60%,
-                var(--secondary-color) 60%,
-                var(--primary-color) 80%,
-                transparent 80%
-            );
-            background-size: 50px 50px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 240, 255, 0.15), transparent 70%);
             z-index: 0;
-            opacity: 0.1;
-            animation: rotateBackground 20s linear infinite;
+            animation: pulse 8s ease-in-out infinite;
+            will-change: transform;
         }
-        @keyframes rotateBackground {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.15; }
+            50% { transform: scale(1.2); opacity: 0.08; }
         }
         .container > * {
             position: relative;
@@ -74,37 +71,40 @@
         }
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
         }
         header h1 {
-            margin: 10px 0;
-            font-size: 2.5em;
+            font-size: 1.8em;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 5px var(--primary-color);
         }
         header h2 {
-            margin: 0;
-            font-size: 1.2em;
+            font-size: 1em;
             color: var(--primary-color);
+            text-shadow: 0 0 2px var(--primary-color);
         }
         .summary-section, .suggestions-section {
-            margin-bottom: 30px;
-            padding: 15px;
+            margin-bottom: 10px;
+            padding: 10px;
             border: 1px solid var(--primary-color);
-            border-radius: 10px;
+            border-radius: 5px;
         }
-        .summary-section h3,
-        .suggestions-section h3 {
+        .summary-section h3, .suggestions-section h3 {
             text-align: center;
             color: var(--primary-color);
-            margin-bottom: 20px;
+            font-size: 1.2em;
+            margin-bottom: 8px;
         }
         .summary-section table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin-bottom: 8px;
+            font-size: 0.9em;
         }
         .summary-section th, .summary-section td {
             border: 1px solid var(--secondary-color);
-            padding: 10px;
+            padding: 6px;
             text-align: center;
         }
         .summary-section th {
@@ -116,27 +116,52 @@
         }
         .suggestions-section li {
             background: rgba(255, 0, 255, 0.1);
-            margin-bottom: 10px;
-            padding: 15px;
-            border-radius: 5px;
+            margin-bottom: 6px;
+            padding: 8px;
+            border-radius: 4px;
             border: 1px solid var(--primary-color);
+            font-size: 0.9em;
+        }
+        .suggestions-section p {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 0.9em;
         }
         footer {
             text-align: center;
-            margin-top: 30px;
-            padding: 20px;
-            font-size: 14px;
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 0.85em;
         }
         footer img {
-            height: 60px;
-            margin-bottom: 10px;
+            height: 40px;
+            margin-bottom: 6px;
+            filter: drop-shadow(0 0 5px var(--primary-color));
         }
-        @media (max-width: 600px) {
+        @media (min-width: 768px) {
             .container {
+                width: 90%;
+                max-width: 900px;
+                margin: 20px auto;
                 padding: 20px;
+                border-radius: 12px;
+                border: 2px solid transparent;
+                border-image: linear-gradient(45deg, var(--primary-color), var(--secondary-color)) 1;
             }
-            .summary-section table, .summary-section th, .summary-section td {
-                font-size: 14px;
+            header h1 {
+                font-size: 2.2em;
+            }
+            header h2 {
+                font-size: 1.2em;
+            }
+            .summary-section h3, .suggestions-section h3 {
+                font-size: 1.4em;
+            }
+            .summary-section table {
+                font-size: 1em;
+            }
+            .suggestions-section li, .suggestions-section p {
+                font-size: 1em;
             }
         }
     </style>
@@ -144,7 +169,7 @@
 <body>
     <div class="container">
         <header>
-            <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="Logo" style="height:70px; margin-bottom:10px;">
+            <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="لوگوی mozarex" style="height:40px; margin-bottom:6px;" loading="lazy">
             <h1>نتیجه مشاور افزایش طول عمر mozarex™</h1>
             <h2>نسخه 1.0</h2>
         </header>
@@ -198,14 +223,16 @@
                     <li>{{ suggestion }}</li>
                 {% endfor %}
             </ul>
-            <p style="text-align: center; margin-top: 20px;">
-                با اجرای این توصیه‌ها، مسیر زندگی پویاتر و سلامتی بهتری در انتظار شماست.
-            </p>
+            <p>با اجرای این توصیه‌ها، مسیر زندگی پویاتر و سلامت‌تری در انتظار شماست.</p>
         </section>
-        <footer>
-            <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="Logo">
-            <p>تمامی حقوق محفوظ است</p>
-        </footer>
     </div>
+    <footer>
+        <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="لوگوی mozarex" loading="lazy">
+        <p>تمامی حقوق برای mozarex™ محفوظ است © <span id="currentYear"></span></p>
+    </footer>
+    <script>
+        // Set current year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
