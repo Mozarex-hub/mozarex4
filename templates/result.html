@@ -3,45 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <title>نتیجه مشاور طول عمر mozarex™ - نسخه 1.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #00ffff;
+            --secondary-color: #ff00ff;
+            --bg-dark: #1a1a1a;
+            --bg-light: #2e2e2e;
+            --text-color: #e0e0e0;
+        }
+        * {
+            box-sizing: border-box;
+        }
         body {
-            font-family: Tahoma, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(to bottom, #f4f4f4, #e0e0e0);
+            background: linear-gradient(135deg, var(--bg-dark), var(--bg-light));
+            font-family: 'Orbitron', sans-serif;
             direction: rtl;
             text-align: right;
+            color: var(--text-color);
         }
         .container {
             width: 90%;
             max-width: 900px;
-            margin: 50px auto;
-            background: #fff;
+            margin: 40px auto;
+            background: rgba(0, 0, 0, 0.5);
             padding: 40px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
+            border-radius: 15px;
+            border: 2px solid transparent;
+            border-image: linear-gradient(45deg, var(--primary-color), var(--secondary-color)) 1;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), 0 0 20px rgba(255, 0, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .container:hover {
+            transform: scale(1.01);
+        }
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(
+                circle,
+                transparent 20%,
+                var(--primary-color) 20%,
+                var(--secondary-color) 40%,
+                transparent 40%,
+                transparent 60%,
+                var(--secondary-color) 60%,
+                var(--primary-color) 80%,
+                transparent 80%
+            );
+            background-size: 50px 50px;
+            z-index: 0;
+            opacity: 0.1;
+            animation: rotateBackground 20s linear infinite;
+        }
+        @keyframes rotateBackground {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .container > * {
+            position: relative;
+            z-index: 1;
         }
         header {
             text-align: center;
             margin-bottom: 30px;
         }
         header h1 {
-            margin: 0;
-            color: #333;
-            font-size: 2em;
+            margin: 10px 0;
+            font-size: 2.5em;
         }
         header h2 {
-            margin: 5px 0 0;
-            font-size: 1em;
-            color: #777;
+            margin: 0;
+            font-size: 1.2em;
+            color: var(--primary-color);
         }
         .summary-section, .suggestions-section {
             margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid var(--primary-color);
+            border-radius: 10px;
         }
         .summary-section h3,
         .suggestions-section h3 {
             text-align: center;
-            color: #333;
+            color: var(--primary-color);
             margin-bottom: 20px;
         }
         .summary-section table {
@@ -50,34 +103,33 @@
             margin-bottom: 20px;
         }
         .summary-section th, .summary-section td {
-            border: 1px solid #ddd;
+            border: 1px solid var(--secondary-color);
             padding: 10px;
             text-align: center;
         }
         .summary-section th {
-            background-color: #f0f0f0;
+            background: rgba(0, 255, 255, 0.1);
         }
         .suggestions-section ul {
             list-style: none;
             padding: 0;
         }
         .suggestions-section li {
-            background: #eee;
+            background: rgba(255, 0, 255, 0.1);
             margin-bottom: 10px;
             padding: 15px;
             border-radius: 5px;
+            border: 1px solid var(--primary-color);
         }
         footer {
             text-align: center;
-            margin-top: 20px;
-            padding: 10px;
+            margin-top: 30px;
+            padding: 20px;
             font-size: 14px;
-            color: #777;
         }
         footer img {
-            height: 50px;
-            display: block;
-            margin: 0 auto 10px;
+            height: 60px;
+            margin-bottom: 10px;
         }
         @media (max-width: 600px) {
             .container {
@@ -92,6 +144,7 @@
 <body>
     <div class="container">
         <header>
+            <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="Logo" style="height:70px; margin-bottom:10px;">
             <h1>نتیجه مشاور طول عمر mozarex™</h1>
             <h2>نسخه 1.0</h2>
         </header>
@@ -146,8 +199,13 @@
                 {% endfor %}
             </ul>
             <p style="text-align: center; margin-top: 20px;">
-                با اعمال این توصیه‌ها، مسیر زندگی سالم‌تر و طولانی‌تری در پیش خواهید داشت.
+                با اجرای این توصیه‌ها، مسیر زندگی پویاتر و سلامتی بهتری در انتظار شماست.
             </p>
         </section>
         <footer>
-            <img src="logo.jpeg
+            <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="Logo">
+            <p>تمامی حقوق محفوظ است</p>
+        </footer>
+    </div>
+</body>
+</html>
